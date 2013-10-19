@@ -1,4 +1,4 @@
 usage: groovy makeDateDirectory startYEAR startMONTH startDATE endYEAR endMONTH endDATE outputPath (copyFile)
 
-Master$B$H$N:9J,(B:
-$BF|IU%U%)%k%@$r:n@.$9$k>r7o$r!VJ?F|$N$_(B(=$BEZF|0J30(B)$B!W$H$7$?(B
+Masterとの差分:
+日付フォルダを作成する条件を「平日のみ(=土日以外)」とした
