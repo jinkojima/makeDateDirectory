@@ -2,7 +2,7 @@ import static java.util.Calendar.*
 
 makeDateDirectory(parseArgs(args))
 
-//$B0z?t=hM}(B
+//引数処理
 def parseArgs(args) {
     switch (args.size()) {
         case 7:
@@ -34,7 +34,7 @@ def parseArgs(args) {
 }
 
 def makeDateDirectory(argsMap) {
-    //$B%3%T!<BP>]%U%!%$%k$NM-L5%U%i%0(B
+    //コピー対象ファイルの有無フラグ
     if (argsMap.copyFile != null) {
         this.hasCopyFile = true
         this.copyFile = new File(argsMap.copyFile)
@@ -42,49 +42,49 @@ def makeDateDirectory(argsMap) {
         this.hasCopyFile = false
     }       
 
-    //$B3+;OF|$N@_Dj(B
+    //開始日の設定
     def startCal = Calendar.instance
     def m = [:]
-    //$B0z?t$O(BString$B$G<hF@$7$F$$$k$N$G(BInt$B$KJQ49(B
+    //引数はStringで取得しているのでIntに変換
     m[YEAR] = argsMap.startYEAR.toInteger()
-    m[MONTH] = argsMap.startMONTH.toInteger() - 1   //Calendar$B$N(BMONTH$B$O(B1$B7n(B=0$B$N$?$aD4@0(B
+    m[MONTH] = argsMap.startMONTH.toInteger() - 1   //CalendarのMONTHは1月=0のため調整
     m[DATE] = argsMap.startDATE.toInteger()
     startCal.set(m)
     println "startDate:"+startCal.format("yyyy-MM-dd")
     
-    //$B=*N;F|$N@_Dj(B
+    //終了日の設定
     def endCal = Calendar.instance
     def n = [:]
-    //$B0z?t$O(BString$B$G<hF@$7$F$$$k$N$G(BInt$B$KJQ49(B
+    //引数はStringで取得しているのでIntに変換
     n[YEAR] = argsMap.endYEAR.toInteger()
-    n[MONTH] = argsMap.endMONTH.toInteger() -1      //Calendar$B$N(BMONTH$B$O(B1$B7n(B=0$B$N$?$aD4@0(B
+    n[MONTH] = argsMap.endMONTH.toInteger() -1      //CalendarのMONTHは1月=0のため調整
     n[DATE] = argsMap.endDATE.toInteger()
     endCal.set(n)
     println "endDate:"+endCal.format("yyyy-MM-dd")
 
-    //$B=PNO@h%Q%9$N@_Dj(B
+    //出力先パスの設定
     def workPath = argsMap.outputPath
     println "outputPath:"+workPath
 
-    //$B3+;OF|$H=*N;F|$NI>2A(B
+    //開始日と終了日の評価
     def dateDiff = startCal.compareTo(endCal)
     //dateDiff
-    // =0   $BF1$8F|IU(B
-    // >0   start$B$,L$Mh(B
-    // <0   start$B$,2a5n(B
+    // =0   同じ日付
+    // >0   startが未来
+    // <0   startが過去
     if (dateDiff > 0) {
         System.err.println "because [startDate > endDate], this script has shut down."
         System.exit 1
     } else {
-    //$B3+;OF|$,=*N;F|$h$j2a5n$G$"$l$P!"=*N;F|$^$G=hM}<B9T(B
+    //開始日が終了日より過去であれば、終了日まで処理実行
         while (dateDiff <= 0){
 
             def dateDir = workPath+"/"+startCal.format("yyyy-MM-dd")
-                //$B=PNO@h%Q%9G[2<$KF|IU%U%)%k%@$r:n@.(B
+                //出力先パス配下に日付フォルダを作成
                 new File(dateDir).mkdirs()
-                //$B%3%T!<%U%!%$%k$,$"$k>l9g$O!"F|IU%U%)%k%@G[2<$K%3%T!<(B
+                //コピーファイルがある場合は、日付フォルダ配下にコピー
                 if(hasCopyFile) {
-                    //$BF|IU%U%)%k%@G[2<$K%3%T!<85%U%!%$%kL>$rDI5-$7$?J8;zNs$r:n$C$F$*$/(B
+                    //日付フォルダ配下にコピー元ファイル名を追記した文字列を作っておく
                     copiedFile = dateDir+"/"+copyFile.getName()
                     new File(copiedFile) << copyFile
                 }
