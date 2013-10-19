@@ -1,0 +1,1 @@
+usage: groovy makeDateDirectory startYEAR startMONTH startDATE endYEAR endMONTH endDATE outputPath (copyFile)
