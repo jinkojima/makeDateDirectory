@@ -80,6 +80,10 @@ def makeDateDirectory(argsMap) {
         while (dateDiff <= 0){
 
             def dateDir = workPath+"/"+startCal.format("yyyy-MM-dd")
+            
+            //平日(土日以外)であれば日付フォルダを作成する
+            def dayOfWeek = startCal.get(DAY_OF_WEEK)
+            if (dayOfWeek != SUNDAY && dayOfWeek != SATURDAY ) {
                 //出力先パス配下に日付フォルダを作成
                 new File(dateDir).mkdirs()
                 //コピーファイルがある場合は、日付フォルダ配下にコピー
@@ -88,8 +92,9 @@ def makeDateDirectory(argsMap) {
                     copiedFile = dateDir+"/"+copyFile.getName()
                     new File(copiedFile) << copyFile
                 }
-                startCal = startCal.next()
-                dateDiff = startCal.compareTo(endCal)
+            }
+            startCal = startCal.next()
+            dateDiff = startCal.compareTo(endCal)
         }
     }
 }
