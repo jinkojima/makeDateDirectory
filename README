@@ -1,4 +1,7 @@
-usage: groovy makeDateDirectory startYEAR startMONTH startDATE endYEAR endMONTH endDATE outputPath (copyFile)
+usage: groovy makeDateDirectory.groovy startYEAR startMONTH startDATE endYEAR endMONTH endDATE outputPath (copyFile)
+
+if you use this script under proxy,
+    groovy -DproxyHost=proxy.server.name -DproxyPort=xxxx makeDateDirectory.grovy ....
 
 Masterとの差分:
 日付フォルダを作成する条件を「平日のみ(=土日以外)」とした

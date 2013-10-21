@@ -1,3 +1,5 @@
+@Grab(group='commons-io', module='commons-io', version='2.4')
+import org.apache.commons.io.FileUtils
 import static java.util.Calendar.*
 
 makeDateDirectory(parseArgs(args))
@@ -89,8 +91,9 @@ def makeDateDirectory(argsMap) {
                 //コピーファイルがある場合は、日付フォルダ配下にコピー
                 if(hasCopyFile) {
                     //日付フォルダ配下にコピー元ファイル名を追記した文字列を作っておく
-                    copiedFile = dateDir+"/"+copyFile.getName()
-                    new File(copiedFile) << copyFile
+                    copiedFilePath = dateDir+"/"+copyFile.getName()
+                    //ファイルをコピー
+                    FileUtils.copyFile(copyFile, new File(copiedFilePath))
                 }
             }
             startCal = startCal.next()
